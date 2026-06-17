@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Kumar Enterprises</title>
+  <meta name="description" content="High Quality Bricks">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Poppins', sans-serif; background:#fff8f0; color:#333; }
+
+    header {
+      position:sticky; top:0; 
+      background:linear-gradient(90deg,#fff7ed,#ffedd5);
+      padding:18px 60px;
+      display:flex; justify-content:space-between; align-items:center;
+      box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      z-index:1000;
+      border-bottom:2px solid #f59e0b;
+    }
+
+    header h1 {
+      font-family:'Playfair Display', serif;
+      color:#b45309;
+      font-size:28px;
+      letter-spacing:1px;
+    }
+
+    nav a {
+      margin:0 18px; 
+      text-decoration:none; 
+      color:#444; 
+      font-weight:500;
+      position:relative;
+      transition:0.3s;
+    }
+
+    nav a::after {
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-5px;
+      width:0%;
+      height:2px;
+      background:#f59e0b;
+      transition:0.3s;
+    }
+
+    nav a:hover {
+      color:#d97706;
+    }
+
+    nav a:hover::after {
+      width:100%;
+    }
+
+/* Overlay background */
+.overlay-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 999;
+}
+
+/* Show overlay */
+.overlay-bg.active {
+  display: block;
+}
+
+/* Navbar */
+#navbar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100vh;
+  background: white;
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(12px);
+  transition: right 0.4s ease;
+}
+
+#navbar.active {
+  right: 0;
+}
+/* Menu links styling */
+#navbar a {
+  padding: 15px 20px;
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 10px;
+  margin: 5px 10px;
+  transition: 0.3s;
+
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* Hover effect */
+#navbar a:hover {
+  background: linear-gradient(45deg, #f59e0b, #d97706);
+  color: white;
+  transform: translateX(5px);
+}
+
+#navbar.active a {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Delay each item (stagger effect) */
+#navbar.active a:nth-child(1) { transition-delay: 0.1s; }
+#navbar.active a:nth-child(2) { transition-delay: 0.2s; }
+#navbar.active a:nth-child(3) { transition-delay: 0.3s; }
+#navbar.active a:nth-child(4) { transition-delay: 0.4s; }
+#navbar.active a:nth-child(5) { transition-delay: 0.5s; }
+
+/* Hamburger */
+.menu-toggle {
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: 0.3s;
+}
+
+/* Change ☰ to X */
+.menu-toggle.active {
+  transform: rotate(90deg);
+}
+
+
+    .hero {
+      height:90vh;
+      background:url('homepage.png') center/cover no-repeat;
+      background-size: 100% auto;
+      background-color: #000;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      color: #fef3c7; text-align:center;
+    }
+
+.hero::after {
+  background: none;
+}
+
+    .hero h2 { font-size:3rem; font-family:'Playfair Display'; }
+    .hero p { margin:15px 0; }
+
+    .btn {
+      padding:12px 25px; background:#f59e0b; color:white; border:none;
+      border-radius:25px; cursor:pointer; margin:10px;
+    }
+
+    section { padding:60px 50px; }
+    /* Gallery Grid */
+    .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+    .gallery-item {
+      position:relative;
+  height: 270px;
+      overflow:hidden;
+      border-radius:15px;
+    }
+
+    .gallery-item img {
+      width:100%;
+      height:100%;
+      object-fit:cover; /* makes image fully fit inside card without distortion */
+      object-position:center;
+      transition:0.4s;
+    }
+
+    .gallery-item:hover img {
+      transform:scale(1.1);
+    }
+
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+
+    .card {
+      background:white; padding:15px; border-radius:15px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      text-align:center;
+position: relative;
+  overflow: hidden;
+
+    }
+
+    .card img { width:100%; border-radius:10px; }
+.card h3{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  margin: 0;
+  padding: 15px;
+  text-align: center;
+}
+
+    .badge { background:red; color:white; padding:5px 10px; border-radius:10px; font-size:12px; }
+
+    footer {
+      background:#d97706; color:white; text-align:center; padding:20px;
+    }
+
+    .whatsapp {
+      position:fixed; bottom:20px; right:20px;
+      background:#fbbf24; color:white; padding:15px;
+      border-radius:50%; text-decoration:none;
+    }
+
+    .contact-container {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin-top:30px;
+    }
+
+    .contact-form {
+      background:white;
+      padding:30px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.1);
+      width:100%;
+      max-width:450px;
+      text-align:center;
+    }
+
+    .contact-form h3 {
+      margin-bottom:20px;
+      color:#d97706;
+      font-family:'Playfair Display', serif;
+    }
+
+    .input-group {
+      margin-bottom:15px;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #ddd;
+      outline:none;
+      transition:0.3s;
+      font-family:'Poppins', sans-serif;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color:#f59e0b;
+      box-shadow:0 0 8px rgba(245,158,11,0.3);
+    }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo img {
+  height: 40px;   /* increase size */
+  width: auto;
+}
+
+.nav-logo span {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #b45309;
+}
+
+.hero-logo {
+  height: 100px;   /* adjust size */
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.hero-logo:hover {
+  transform: scale(1.1);
+}
+
+.overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+    .contact-form button {
+      width:100%;
+      margin-top:10px;
+    }
+
+.map-container{
+  width:450px;
+  height:320px;
+}
+
+.map-container iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:15px;
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 15px;
+}
+
+/* 📱 MOBILE RESPONSIVE FIX */
+@media (max-width: 768px) {
+
+  /* Header spacing */
+  header {
+    padding: 10px 20px;
+  }
+
+  /* Logo smaller */
+  .nav-logo img {
+    height: 30px;
+  }
+
+  .nav-logo span {
+    font-size: 16px;
+  }
+
+  /* Hero text */
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  /* Sections padding */
+  section {
+    padding: 40px 20px;
+  }
+
+  /* Cards 1 column */
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Gallery fix */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Map full width */
+  .map-container {
+    max-width: 100%;
+  }
+
+  /* Navbar width fix */
+  #navbar {
+    width: 70%;
+  }
+
+}
+
+.slider {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.slide {
+  display: none;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Show active */
+.slide.active {
+  display: block;
+}
+
+/* Text on image */
+.text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.5);
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+  background: #f59e0b;
+}
+
+/* Center content */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* 🔥 Glass box */
+.hero-box {
+  background: rgba(0, 0, 0, 0.5);  /* dark transparent */
+  padding: 40px;
+  border-radius: 20px;
+
+  backdrop-filter: blur(10px); /* glass blur */
+  -webkit-backdrop-filter: blur(10px);
+
+  text-align: center;
+  color: white;
+
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 15px 60px rgba(0,0,0,0.4);
+  max-width: 500px;
+}
+
+/* Text clarity */
+.hero-box h2 {
+  font-size: 3rem;
+  color: #fbbf24;  /* gold */
+  text-shadow: 0 3px 10px rgba(0,0,0,0.8);
+}
+
+.hero-box p {
+  color: white;
+  margin: 15px 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+/* Logo */
+.hero-logo {
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+@keyframes float{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-20px);
+  }
+}
+.card{
+  transition:.4s;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-12px);
+  box-shadow:
+  0 25px 50px rgba(0,0,0,.15);
+}
+
+.card img{
+  transition:.5s;
+}
+
+.card:hover img{
+  transform:scale(1.1);
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ text-align:center;
+ background:#fff;
+ padding:60px;
+}
+
+.stats h2{
+ color:#f59e0b;
+ font-size:3rem;
+}
+header{
+ backdrop-filter:blur(20px);
+ background:rgba(255,255,255,.7);
+}
+header.scrolled{
+ box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+.gallery-overlay{
+ position:absolute;
+ inset:0;
+ background:rgba(0,0,0,.5);
+ color:white;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ opacity:0;
+ transition:.4s;
+}
+.reveal{
+  opacity: 0;
+  transform: translateY(80px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-item:hover .gallery-overlay{
+ opacity:1;
+}
+.hero{
+ background-attachment:fixed;
+}
+.cta{
+ text-align:center;
+ padding:80px 20px;
+ background:
+ linear-gradient(
+ 135deg,
+ #f59e0b,
+ #b45309
+ );
+ color:white;
+ border-radius:30px;
+ margin:50px;
+}
+.services{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:40px;
+  padding:60px 50px;
+}
+
+.services-text{
+  flex:1;
+}
+
+.services-text h2{
+  margin-bottom:20px;
+}
+
+.services-text p{
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+.services-image{
+  flex:1;
+}
+
+.services-image img{
+  width:81%;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+@media(max-width:768px){
+  .services{
+    flex-direction:column;
+  }
+}
+
+  </style>
+</head>
+<script>
+function sendToWhatsApp() {
+  let name = document.querySelector('input[placeholder="Your Name"]').value;
+  let email = document.querySelector('input[placeholder="Your Email"]').value;
+  let message = document.querySelector('textarea').value;
+
+  let phoneNumber = "8885977725";
+
+  let text = `Hello, my name is ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+
+  let url = `https://wa.me/${phoneNumber}?text=${text}`;
+
+  window.open(url, "_blank");
+}
+
+function toggleMenu() {
+  let nav = document.getElementById("navbar");
+  let overlay = document.getElementById("overlay");
+  let btn = document.querySelector(".menu-toggle");
+
+  nav.classList.toggle("active");
+  overlay.classList.toggle("active");
+
+  btn.innerHTML = nav.classList.contains("active") ? "✖" : "☰";
+}
+
+function closeMenu() {
+  document.getElementById("navbar").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+
+  document.querySelector(".menu-toggle").innerHTML = "☰";
+}
+
+let index = 0;
+
+function showSlide(n) {
+  let slides = document.querySelectorAll(".slide");
+
+  if (n >= slides.length) index = 0;
+  if (n < 0) index = slides.length - 1;
+
+  slides.forEach(slide => slide.classList.remove("active"));
+  slides[index].classList.add("active");
+}
+
+function changeSlide(n) {
+  index += n;
+  showSlide(index);
+}
+
+/* Auto slide */
+setInterval(() => {
+  index++;
+  showSlide(index);
+}, 3000);
+
+function reveal() {
+  let reveals = document.querySelectorAll(".reveal");
+
+  reveals.forEach((element) => {
+    let windowHeight = window.innerHeight;
+    let elementTop = element.getBoundingClientRect().top;
+    let revealPoint = 100;
+
+    if (elementTop < windowHeight - revealPoint) {
+      element.classList.add("active");
+    }
+  });
+}
+
+window.addEventListener("scroll", reveal);
+</script>
+<body>
+<header>
+
+  <div class="nav-logo">
+    <img src="logo.jpg" alt="logo">
+    <span>Kumar Enterprises</span>
+    
+  </div>
+
+  <!-- ✅ Add this -->
+  <div class="menu-toggle" id="menuBtn" onclick="toggleMenu()">☰</div>
+  
+  <div class="overlay-bg" id="overlay" onclick="closeMenu()"></div>
+
+  <!-- ✅ Add id -->
+  <nav id="navbar">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#menu" onclick="closeMenu()">Menu</a>
+    <a href="#gallery" onclick="closeMenu()">Gallery</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+  </nav>
+
+</header>
+
+<section class="hero" id="home" class="reveal">
+  <div class="hero-box">
+    <img src="logo.jpg" class="hero-logo" alt="logo">
+
+    <h2>Kumar Enterprises</h2>
+    <p>We Build Spaces that Inspire</p>
+
+    <button class="btn" onclick="sendToWhatsApp()">Order Now</button>
+  </div>
+
+</section>
+
+<section id="about" class="reveal">
+  <h3>About Us</h3><br>
+  <p>We are a leading provider of Ceiling Works, POP Manufacturing, Interior Design, and Building Construction services. With our own POP manufacturing unit, we offer high-quality ceiling materials and POP sheets at wholesale prices, ensuring the best value for our customers. From modern POP and PVC ceilings to complete interior design solutions, we create beautiful and functional spaces for homes and businesses. We are also experienced builders, undertaking construction projects and developing quality residential and commercial properties. With a commitment to quality, affordability, and customer satisfaction, we provide complete solutions under one roof.</p>
+</section>
+<section class="stats">
+  <div>
+    <h2>10+</h2>
+    <p>Years Experience</p>
+  </div>
+
+  <div>
+    <h2>1000+</h2>
+    <p>Projects Completed</p>
+  </div>
+
+  <div>
+    <h2>500+</h2>
+    <p>Happy Clients</p>
+  </div>
+
+  <div>
+    <h2>24/7</h2>
+    <p>Customer Support</p>
+  </div>
+</section>
+<br>
+<section class="services" class="reveal">
+
+  <div class="services-text">
+    <h2>Our Services</h2>
+
+    <p>✔ Ceiling Works</p>
+    <p>✔ Building Construction</p>
+    <p>✔ Interior Designing</p>
+    <p>✔ POP Manufacturing</p>
+    <p>✔ PVC Ceiling Solutions</p>
+  </div>
+
+  <div class="services-image">
+    <img src="services.png" alt="Our Services">
+  </div>
+
+</section>
+
+<br>
+<section id="about" class="reveal">
+<h2>Why Choose Us?</h2>
+<br>
+<p>
+✔ Own POP Manufacturing Unit – We manufacture our own POP sheets and ceiling materials, allowing us to provide superior quality products at wholesale prices.</p><br>
+
+<p>✔ Complete Ceiling Solutions – From POP ceilings and PVC ceilings to false ceilings and decorative designs, we offer customized solutions for every space.</p><br>
+
+<p>✔ Expert Interior Design Services – Our experienced team creates stylish, functional, and modern interiors that match your vision and budget.</p><br>
+
+<p>✔ Quality Materials & Workmanship – We use premium materials and skilled craftsmanship to ensure durability, beauty, and long-lasting results.</p><br>
+
+<p>✔ Construction & Building Expertise – Along with ceiling and interior works, we undertake building construction projects and develop quality residential and commercial properties.</p><br>
+
+<p>✔ Affordable Pricing – Direct manufacturing and efficient project management help us deliver the best value without compromising on quality.</p><br>
+
+<p>✔ Customer Satisfaction First – We are committed to completing every project on time, within budget, and to the highest standards of excellence.</p>
+</section>
+
+
+<section id="menu" class="reveal">
+  <h2>Our Products</h2>
+  <br>
+  <div class="cards">
+    <div class="card">
+      <span class="badge">Best Seller</span>
+      <img src="gypsum tape.jpg">
+      <h3>Gypsum tape</h3>
+      </div>
+    <div class="card">
+      <img src="pop-sheet.webp">
+      <h3>Pop sheets</h3>
+      </div>
+<div class="card">
+      <img src="Anchor bolts.jpg">
+      <h3>Anchor bolts</h3>
+      </div>
+<div class="card">
+      <img src="bottom.jpg">
+      <h3>Bottom</h3>
+      </div>
+
+<div class="card">
+      <img src="Measure tape.jpg">
+      <h3>Measure tape</h3>
+      </div>
+<div class="card">
+      <img src="Screws.jpg">
+      <h3>Screws</h3>
+      </div>
+<div class="card">
+      <img src="patti.jpg">
+      <h3>Patti</h3>
+      </div>
+</section>
+<section id="gallery" class="reveal">
+  <h2>Successful Projects</h2><br>
+  <div class="gallery-grid">
+<div class="gallery-item">
+    <img src="Gallery1.jpg">
+</div>
+<div class="gallery-item">
+    <img src="gallery2.jpg">
+</div>
+<div class="gallery-item">
+ <img src="gallery3.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery4.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery5.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery6.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery7.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery8.jpg">
+</div>
+<div class="gallery-item">
+<img src="gallery9.jpg">
+</div>
+
+  </div>
+</section>
+
+<section id="contact" class="services" class="reveal">
+<div class="services-text">
+  <h2>Contact Us</h2>
+<br>
+  <p>📍 Bhimavaram, Andhra Pradesh 534201</p>
+  <p>📞 8885977725</p>
+  <p>✉️ smra002233@gmail.com</p><br>
+</div>
+
+  <div class="services-image">
+<div class="map-container">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201488.76398312842!2d81.47145224839883!3d16.488898886962833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a37d37ef15c6a03%3A0x17e2aec52bab6115!2sKUMAR%20ENTERPRISES!5e1!3m2!1sen!2sin!4v1781602450835!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div></div></section>
+<section class="services" class="reveal">
+<div class="services-text">
+  <h2 style="text-align: center;">Send us a Message</h2>
+<div class="contact-container">
+  <form class="contact-form">
+    <h3>Send Us a Message 💌</h3>
+    
+    <div class="input-group">
+      <input type="text" placeholder="Your Name" required>
+    </div>
+
+    <div class="input-group">
+      <input type="email" placeholder="Your Email" required>
+    </div>
+
+    <div class="input-group">
+      <textarea placeholder="Your Message" rows="4"></textarea>
+    </div>
+
+    <button type="button" class="btn" onclick="sendToWhatsApp()">
+  Send Message
+</button>
+  </form>
+</div></div><br>
+  <div class="services-text">
+<p>For any queries, quotations, or project consultations, feel free to contact us. Whether you need ceiling works, POP materials, interior designing, or building construction services, our team is ready to provide expert guidance and reliable solutions tailored to your needs.
+</p>
+</div>
+</section>
+
+<footer>
+  <p>© 2026 Kumar Enterprises | We Build Spaces that Inspire</p>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/8885977725">💬</a>
+
+</body>
+</html>
+
+
+
+
+
